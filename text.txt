@@ -1,0 +1,14 @@
+#include <stdio.h>
+int main() {
+  FILE *fp;//asdsdsd
+  char name[] = "my.txt";
+  if ((fp = fopen(name, "r")) == NULL)
+  {
+    printf("sdsdssd");
+    getchar();//efefefefef
+    return 0;
+  }
+  fclose(fp);//sdsdsdfdfef
+  getchar();
+  return 0;
+}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
