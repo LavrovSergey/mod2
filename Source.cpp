@@ -43,9 +43,9 @@ void print_text(vector a, vector b, vector c, double k, double sum, double modul
 {
 	cout << "Вектор a(" << a.x << ";" << a.y << ";" << a.z << ") та b(" << b.x << ";" << b.y << ";" << b.z << ")" << endl;
 	cout << " a +  b = с(" << c.x << ";" << c.y << ";" << c.z << ")" << endl;
-	cout << "Скалярний добуток a та b = " << sum << endl;
-	cout << "Норма a = " << modul_a << endl;
-	cout << "Множення a на скаляр k = (" << ak.x << ";" << ak.y << ";" << ak.z << ")" << endl;
+	cout << "Скалярний добуток = " << sum << endl;
+	cout << "Норма а = " << modul_a << endl;
+	cout << "Множення а на скаляр = (" << ak.x << ";" << ak.y << ";" << ak.z << ")" << endl;
 }
 
 void file(vector a, vector b, vector c, double k, double sum, double modul_a, vector ak)
@@ -53,9 +53,9 @@ void file(vector a, vector b, vector c, double k, double sum, double modul_a, ve
 	ofstream file("vector.txt");
 	file << "Вектор a(" << a.x << ";" << a.y << ";" << a.z << ") та b(" << b.x << ";" << b.y << ";" << b.z << ")" << endl;
 	file << " a +  b = с(" << c.x << ";" << c.y << ";" << c.z << ")" << endl;
-	file << "Скалярний добуток a та b = " << sum << endl;
+	file << "Скалярний добуток = " << sum << endl;
 	file << "Норма a = " << modul_a << endl;
-	file << "Множення a на скаляр k = (" << ak.x << ";" << ak.y << ";" << ak.z << ")" << endl;
+	file << "Множення a на скаляр = (" << ak.x << ";" << ak.y << ";" << ak.z << ")" << endl;
 	file.close();
 
 }
@@ -111,7 +111,31 @@ int m4()
 int m1()
 {
 	setlocale(LC_ALL, "Russian");
-	int n = 0;
+	char s[100] = { '\0' };
+	ifstream file("1.txt");
+	ofstream file1("2.txt");
+	while (!file.eof())
+	{
+		file.read(s, sizeof(s));
+		for (int i = 0; i < 100; i++)
+		{
+			if (s[i] == '/' && s[i + 1] == '/')
+			{
+				int j = i;
+				while (s[j] != '\n') //не находит переход на новую строку
+				{
+					cout << s[j];
+					s[j] = ' ';
+					j++;
+				}
+				cout << endl;
+			}
+		}
+		file1.write(s, sizeof(s));
+	}
+	file.close();
+	file1.close();
+	/*int n = 0;
 	char s[1000];
 	ifstream file("text.txt");
 	while (!file.eof()) {
@@ -121,57 +145,167 @@ int m1()
 	file.seekg(0, ios::beg);
 	char** mas = new char* [n];
 	for (int i = 0; i < n; ++i)
-	{
+	 {
 		mas[i] = new char[200];
-	}
+	 }
 	for (int i = 0; i < n; i++)
-	{
+	 {
 		for (int j = 0; j < 200; j++)
 		{
 			mas[i][j] = '\0';
 		}
-	}
+	 }
 	for (int i = 0; i < n; i++)
-	{
+	 {
 		for (int j = 0; j < 200; j++)
 		{
 			file.read((char*)& mas[i][j], 1);
 		}
-	}
+	 }
 
 	for (int i = 0; i < n; i++)
-	{
+	 {
 		for (int j = 0; j < 200; j++)
-		{
+		 {
 			if (mas[i][j] == '/' && mas[i][j + 1] == '/')
-			{
+			 {
 				int c = j;
 				while (mas[i][c] != '\n')
-				{
+				 {
 					cout << mas[i][c];
 					mas[i][c] = ' ';
 					c++;
-				}
+				 }
 				cout << endl;
-			}
-		}
-	}
+			 }
+		 }
+	 }
 	file.close();
 	ofstream file1("text.txt");
 	for (int i = 0; i < n; i++)
-	{
+	 {
 		for (int j = 0; j < 200; j++)
 		{
 			file1 << mas[i][j];
 		}
-	}
+	 }
 	file1.close();
 	for (int i = 0; i < n; i++)
-	{
+	 {
 		delete[] mas[i];
-	}
-	delete[] mas;
+	 }
+	delete[] mas;*/
 	back();
 	return 0;
 }
-int m3() { back(); return 0;}
+int m3()
+{
+	setlocale(LC_ALL, "Russian");
+	ifstream file("matrix.txt");
+	cout << "Основная диагональ" << endl;
+	int n;
+	file >> n;
+	int** mas1 = new int* [n];
+	for (int i = 0; i < n; ++i)
+	{
+		mas1[i] = new int[n];
+		for (int j = 0; j < n; ++j)
+		{
+			file >> mas1[i][j];
+			cout << mas1[i][j] << '\t';
+		}
+		cout << endl;
+	}
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			if (mas1[i][j] == mas1[j][i] && i != j)
+			{
+				mas1[i][j] = 0;
+				mas1[j][i] = 0;
+			}
+		}
+	}
+	cout << "Отакой она стала" << endl;
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			cout << mas1[i][j] << '\t';
+		}
+		cout << endl;
+	}
+	for (int i = 0; i < n; i++)
+	{
+		int count = 0;
+		for (int j = 0; j < n; j++)
+		{
+			if (mas1[i][j] == 0) { count++; }
+		}
+		if (count == n) { cout << i + 1 << " строка-нулевая" << endl; }
+	}
+	for (int j = 0; j < n; j++)
+	{
+		int count = 0;
+		for (int i = 0; i < n; i++)
+		{
+			if (mas1[i][j] == 0) { count++; }
+		}
+		if (count == n) { cout << j + 1 << " столбец-нулевой" << endl; }
+	}
+	file.seekg(1, ios::beg);
+	cout << "````````````````````````````````````````````````````````````" << endl;
+	cout << "Побочная диагональ" << endl;
+	int** mas2 = new int* [n];
+	for (int i = 0; i < n; ++i)
+	{
+		mas2[i] = new int[n];
+		for (int j = 0; j < n; ++j)
+		{
+			file >> mas2[i][j];
+			cout << mas2[i][j] << '\t';
+		}
+		cout << endl;
+	}
+	for (int i = 0; i < n; ++i)
+	{
+		for (int j = 0; j < n; ++j)
+		{
+			if (mas2[i][j] == mas1[n - j - 1][n - i - 1] && i != n - j - 1 && j != n - i - 1)
+			{
+				mas2[i][j] = 0;
+				mas2[n - j - 1][n - i - 1] = 0;
+			}
+		}
+	}
+	cout << "Отакой она стала" << endl;
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			cout << mas2[i][j] << '\t';
+		}
+		cout << endl;
+	}
+	for (int i = 0; i < n; i++)
+	{
+		int count = 0;
+		for (int j = 0; j < n; j++)
+		{
+			if (mas2[i][j] == 0) { count++; }
+		}
+		if (count == n) { cout << i + 1 << " строка-нулевая" << endl; }
+	}
+	for (int j = 0; j < n; j++)
+	{
+		int count = 0;
+		for (int i = 0; i < n; i++)
+		{
+			if (mas2[i][j] == 0) { count++; }
+		}
+		if (count == n) { cout << j + 1 << " столбец-нулевой" << endl; }
+	}
+	back();
+	return 0;
+}
